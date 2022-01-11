@@ -15,7 +15,7 @@ use std::ops::Index;
 /// rolling[0] is the latest value, rolling[1], is the
 /// value inserted before, and so on.
 #[derive(Clone, Copy, Debug)]
-pub struct Rolling<R: Real, const N: usize> {
+pub struct Series<R: Real, const N: usize> {
     buf: [R; N],
     offset: usize,
     n: R,
@@ -23,7 +23,7 @@ pub struct Rolling<R: Real, const N: usize> {
     variance: R,
 }
 
-impl<R: Real, const N: usize> Rolling<R, N> {
+impl<R: Real, const N: usize> Series<R, N> {
     /// Create a new rolling series.
     /// All values are initialized to zero.
     pub fn new() -> Self {
@@ -76,7 +76,7 @@ impl<R: Real, const N: usize> Rolling<R, N> {
     }
 }
 
-impl<R: Real, const N: usize> From<[R; N]> for Rolling<R, N> {
+impl<R: Real, const N: usize> From<[R; N]> for Series<R, N> {
     fn from(buf: [R; N]) -> Self {
         let n = R::from(N).expect("Couldn't convert N to type R.");
 
@@ -88,7 +88,7 @@ impl<R: Real, const N: usize> From<[R; N]> for Rolling<R, N> {
             .fold(R::zero(), |acc, x| acc + x)
             / n;
 
-        Rolling {
+        Series {
             buf,
             offset: buf.len() - 1,
             n,
@@ -98,7 +98,7 @@ impl<R: Real, const N: usize> From<[R; N]> for Rolling<R, N> {
     }
 }
 
-impl<R: Real, const N: usize> Index<usize> for Rolling<R, N> {
+impl<R: Real, const N: usize> Index<usize> for Series<R, N> {
     type Output = R;
 
     fn index(&self, index: usize) -> &Self::Output {
@@ -108,7 +108,7 @@ impl<R: Real, const N: usize> Index<usize> for Rolling<R, N> {
     }
 }
 
-impl<R: Real, const N: usize> Default for Rolling<R, N> {
+impl<R: Real, const N: usize> Default for Series<R, N> {
     fn default() -> Self {
         Self::from([R::zero(); N])
     }

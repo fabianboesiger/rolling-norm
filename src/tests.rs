@@ -2,7 +2,7 @@ use super::*;
 
 #[test]
 fn from_buf() {
-    let rolling = Rolling::from([2.0, 4.0, 6.0]);
+    let rolling = Series::from([2.0, 4.0, 6.0]);
     approx_eq(rolling.curr(), 6.0);
     approx_eq(rolling.mean(), 4.0);
     approx_eq(rolling.var(), 2.66666);
@@ -12,16 +12,17 @@ fn from_buf() {
 
 #[test]
 fn all_zero() {
-    let rolling = Rolling::from([0.0, 0.0, 0.0]);
+    let rolling = Series::from([0.0, 0.0, 0.0]);
     approx_eq(rolling.curr(), 0.0);
     approx_eq(rolling.mean(), 0.0);
     approx_eq(rolling.var(), 0.0);
     approx_eq(rolling.stdev(), 0.0);
+    approx_eq(rolling.norm(), 0.0);
 }
 
 #[test]
 fn mean_stdev() {
-    let mut rolling = Rolling::<f64, 3>::new();
+    let mut rolling = Series::<f64, 3>::new();
     rolling.insert(2.0);
     rolling.insert(4.0);
     rolling.insert(6.0);
@@ -41,7 +42,7 @@ fn mean_stdev() {
 
 #[test]
 fn index() {
-    let mut rolling = Rolling::<f64, 3>::new();
+    let mut rolling = Series::<f64, 3>::new();
     rolling.insert(2.0);
     rolling.insert(4.0);
     rolling.insert(6.0);

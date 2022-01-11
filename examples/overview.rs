@@ -1,7 +1,7 @@
-use rolling_norm::Rolling;
+use rolling_norm::Series;
 
 fn main() {
-    let mut rolling = Rolling::from([1.0, 2.0, 3.0]);
+    let mut rolling = Series::from([1.0, 2.0, 3.0]);
     // The latest value is at index 0.
     assert_eq!(rolling[0], 3.0);
     assert_eq!(rolling[1], 2.0);
