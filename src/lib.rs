@@ -96,9 +96,7 @@ impl<R: Real, const N: usize> From<[R; N]> for Series<R, N> {
             .fold(R::zero(), |acc, x| acc + x)
             / n;
 
-        let sum = buf
-            .iter()
-            .fold(R::zero(), |acc, &x| acc + x);
+        let sum = buf.iter().fold(R::zero(), |acc, &x| acc + x);
 
         Series {
             buf,
