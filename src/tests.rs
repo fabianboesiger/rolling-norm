@@ -11,6 +11,12 @@ fn from_buf() {
 }
 
 #[test]
+fn sum() {
+    let rolling = Series::from([2.0, 4.0, 6.0]);
+    assert_eq!(rolling.sum(), 12.0);
+}
+
+#[test]
 fn all_zero() {
     let rolling = Series::from([0.0, 0.0, 0.0]);
     approx_eq(rolling.curr(), 0.0);

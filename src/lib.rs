@@ -21,6 +21,7 @@ pub struct Series<R: Real, const N: usize> {
     n: R,
     mean: R,
     variance: R,
+    sum: R,
 }
 
 impl<R: Real, const N: usize> Series<R, N> {
@@ -43,6 +44,8 @@ impl<R: Real, const N: usize> Series<R, N> {
 
         // Compute new variance.
         self.variance = self.variance + (new - old) * (new - self.mean + old - old_mean) / self.n;
+
+        self.sum = self.sum - old + new;
     }
 
     /// Returns the mean, or average.
@@ -74,6 +77,11 @@ impl<R: Real, const N: usize> Series<R, N> {
             (self.curr() - self.mean()) / self.stdev()
         }
     }
+
+    /// Returns the sum of all entries.
+    pub fn sum(&self) -> R {
+        self.sum
+    }
 }
 
 impl<R: Real, const N: usize> From<[R; N]> for Series<R, N> {
@@ -88,12 +96,17 @@ impl<R: Real, const N: usize> From<[R; N]> for Series<R, N> {
             .fold(R::zero(), |acc, x| acc + x)
             / n;
 
+        let sum = buf
+            .iter()
+            .fold(R::zero(), |acc, &x| acc + x);
+
         Series {
             buf,
             offset: buf.len() - 1,
             n,
             mean,
             variance,
+            sum,
         }
     }
 }

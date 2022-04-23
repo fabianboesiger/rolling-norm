@@ -1,6 +1,6 @@
 [package]
 name = "rolling_norm"
-version = "0.3.0"
+version = "0.4.0"
 edition = "2018"
 authors = ["Fabian Bösiger <boesiger.fabian@outlook.com>"]
 categories = ["data-structures", "science"]
